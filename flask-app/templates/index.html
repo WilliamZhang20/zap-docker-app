@@ -1,0 +1,40 @@
+<html>
+    <head>
+        <title>ZAP Scanner Web App</title>
+        <style type="text/css">
+            body {
+              background: #34dbeb;
+              color: black;
+            }
+            div.scanning_container {
+              max-width: 700px;
+              margin: 100px auto;
+              border: 20px solid rgb(184, 238, 35);
+              padding: 10px;
+              text-align: center;
+            }
+            h2 {
+              font-size: 33px;
+            }
+            input {
+              font-size: 16px;
+            }
+            form {
+              font-size: 24px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="scanning_container">
+            <h2>An app to run the ZAP website scanner</h2>
+            <form method = "post">
+                <label for = "link_text">The link of the website:</label>
+                <input type = "text" id = "link_text" name = "link_text" placeholder = "Enter link here..."><br><br>
+                <label for = "time_limit">The scan time limit, default none:</label>
+                <input type = "text" id = "limit" name = "limit" placeholder = "Minutes"> <br><br>
+                <input type = "submit" value = "Submit">
+            </form>
+            <p>{{message}}</p>
+        </div>
+    </body>
+</html>

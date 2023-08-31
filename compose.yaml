@@ -1,0 +1,20 @@
+services:
+  flask-app:
+    build:
+      context: ./flask-app
+    user: root
+    ports:
+      - "8888:5000"
+    volumes:
+      - zap-reports:/usr/src/reports
+      - zap-links:/usr/src/web-links
+  zap-scanner:
+    build:
+      context: ./zap-scanner
+    user: root
+    volumes:
+      - zap-reports:/zap/wrk
+      - zap-links:/zap/targets
+volumes:
+  zap-reports:
+  zap-links:
