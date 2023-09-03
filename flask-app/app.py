@@ -20,11 +20,9 @@ def index():
 
 @app.route('/view-report', methods = ["GET"])
 def render_report():
-    curr_path = '/usr/src/web-links/file_name.txt'
-    with open(curr_path, 'r') as report_name_file:
-            file_name = report_name_file.read()
+    file_name = "my_zap_report.html" # changed to generic name
     if os.path.exists(f'/usr/src/reports/{file_name}'):
-        shutil(f'/usr/src/reports/{file_name}', f'/usr/src/app/templates/{file_name}')
+        shutil.copy(f'/usr/src/reports/{file_name}', f'/usr/src/app/templates/{file_name}')
         return render_template(file_name)
     else:
         return "Report not available yet, please wait"
