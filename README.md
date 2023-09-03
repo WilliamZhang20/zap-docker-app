@@ -30,7 +30,7 @@ While the scanner runs, the Flask app route `/view-report` will wait for the HTM
 
 ## Important Notes
 
-When entering the link, be sure to **omit 'www' or any other similar subdomains** in the link. Entering it will often cause the ZAP to run indefinetly, and at high CPU usage. The best way to avoid this is by selecting and copying the link on Chrome, which will always be suitable. 
+When entering the link, be sure to **omit 'www' or any other similar subdomains**. Retaining it will often cause the ZAP to run indefinetly at extremely high CPU usage. The best way to avoid this is by selecting and copying the link on Chrome, which will always be suitable. 
 
 The ZAP scanner will take approximately 2-4 minutes to run, depending on your machine. If it runs for more than 10 minutes, there is likely a bug. 
 

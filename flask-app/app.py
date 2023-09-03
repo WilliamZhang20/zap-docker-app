@@ -1,7 +1,6 @@
 from flask import Flask, render_template, request
 import os
 import shutil
-from time import sleep
 
 app = Flask(__name__)
 
