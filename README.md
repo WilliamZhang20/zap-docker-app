@@ -32,7 +32,7 @@ While the scanner runs, the Flask app route `/view-report` will wait for the HTM
 
 When entering the link, be sure to **omit 'www' or any other similar subdomains**. Retaining it will often cause the ZAP to run indefinetly at extremely high CPU usage. The best way to avoid this is by selecting and copying the link on Chrome, which will always be suitable. 
 
-The ZAP scanner will take approximately 2-4 minutes to run, depending on your machine. If it runs for more than 10 minutes, there is likely a bug. 
+The ZAP scanner will take approximately 3-5 minutes to run, depending on your machine's performance and the number and severity of alerts. If it runs for more than 8 minutes with over 1000% in container CPU usage, or for more than 15-20 outright, there is likely a bug. 
 
 One can download the report by simply right-clicking and saving the website as an HTML. 
 
@@ -40,6 +40,6 @@ When the scan is complete and the report is generated, the app will need to be s
 
 ## Next Steps
 
-1) Deploying it to a production environment like AWS
-2) Allowing for more options in the UI, such as adding the AJAX spider, baseline/full scan, etc.
-3) Hosting a database for various website results
+1) Implementing REST API or a Kubernetes cluster to orchestrate the contianers.  
+2) Deploying it to a production environment like AWS to make the website public.
+3) Allowing for more options in the UI, such as adding the AJAX spider, choosing baseline/full scan, etc.
