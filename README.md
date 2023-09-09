@@ -2,7 +2,7 @@
 
 In this project, I used Docker and Flask to build a web app that can run the [ZAP](https://www.zaproxy.org/docs/docker/full-scan/) website scanner.
 
-The app consists of two microservices: a flask web server and the ZAP scanner, which are connected through two mounted volumes and launched with Docker Compose. 
+The app consists of two container-based microservices: a flask web server and the ZAP scanner, which are connected through two mounted volumes and launched with Docker Compose. 
 
 To use it, one can simply enter the website link, press submit, and the report will be rendered on the website.
 
@@ -12,9 +12,9 @@ To use it, one can simply enter the website link, press submit, and the report w
 
 2) Set up Docker Desktop.
 
-3) To start, run `docker-compose up`. All the volumes, images, and containers will be built automatically.
+3) To start, run `docker-compose up` from the directory of the project. All the volumes, images, and containers will be built automatically.
 
-4) Go to `localhost:8888` and follow instructions. To view the report, add `/view-report` to the end of the URL, and wait for the scan to complete.
+4) Open `localhost:8888` in a browser, enter the link (see Important Notes below), and press submit. To view the report, add `/view-report` to the end of the URL, and wait for the scan to complete.
 
 5) To stop the app, run Ctrl+C in the terminal. Then, to remove the containers, run `docker-compose down`.
 
@@ -32,7 +32,7 @@ While the scanner runs, the Flask app route `/view-report` will wait for the HTM
 
 When entering the link, be sure to **omit 'www' or any other similar subdomains**. Retaining it will often cause the ZAP to run indefinetly at extremely high CPU usage. The best way to avoid this is by selecting and copying the link on Chrome, which will always be suitable. 
 
-The ZAP scanner will take approximately 3-5 minutes to run, depending on your machine's performance and the number and severity of alerts. If it runs for more than 8 minutes with over 1000% in container CPU usage, or for more than 15-20 outright, there is likely a bug. 
+The ZAP scanner will take approximately 3-5 minutes to run, depending on your machine's performance and the amount and severity of alerts. If it runs for more than 8 minutes with over 1000% in container CPU usage, or for more than 15-20 outright, there is likely a problem. 
 
 One can download the report by simply right-clicking and saving the website as an HTML. 
 
@@ -40,6 +40,6 @@ When the scan is complete and the report is generated, the app will need to be s
 
 ## Next Steps
 
-1) Implementing REST API or a Kubernetes cluster to orchestrate the contianers.  
+1) Implementing REST API or a Kubernetes cluster to orchestrate the containers.  
 2) Deploying it to a production environment like AWS to make the website public.
 3) Allowing for more options in the UI, such as adding the AJAX spider, choosing baseline/full scan, etc.
