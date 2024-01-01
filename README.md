@@ -20,13 +20,33 @@ To use it, one can simply enter the website link, press submit, and the report w
 
 ## How does it work?
 
-When the link is inputted into the website, it is processed by the Flask program, which enters it into a text file in a volume mount directory, and leaves a message notifying the user.
+When the link is inputted into the website, it is processed by the Python script, which enters it into a text file in a volume mount directory, and leaves a message notifying the user.
 
 Meanwhile, the ZAP container runs a shell script on startup, which will wait for the text file containing the link to appear. 
 
 When it does, the link will be collected, the ZAP scanner will be run, and the report HTML will be generated in another volume mount.
 
-While the scanner runs, the Flask app route `/view-report` will wait for the HTML report, and when it arrives, it will render it on the website at that route. 
+While the scanner runs, the Flask app route `/view-report`, controlled by the same Python script, will wait for the HTML report, and when it arrives, it will render it on the website at that route. 
+
+## What does each file do? 
+
+In the directory `flask-app`, the folder `templates` stores the file `index.html`, which has the contents of the main web page in the front end, as part of the home Flask app route.
+
+Also in the `flask-app` directory is the Python script called `app.py`, the meat of the whole project. It will take the URL from the input line on the home page and send it to the other container. At the same time, the route `/view-report` in the same script will check if the HTML report from the scanner appears. If not, a simple message will be displayed on the screen. However, if it does and the website is accessed, then the HTML-based report will be copied to the frontend container's directory and rendered onto the route page.
+
+The `Dockerfile` in `flask-app` copies the directory files into the container, installs Python, Flask (version specified in `requirements.txt`), and pip, configures the Docker network port needed, and runs `app.py`, which initiates and allows everything else in the container to be executed. 
+
+In the directory `zap-scanner`, the Bash script `scan-script.sh` waits for the text file containing the URL to be created by the Python script in the other container to appear in the volume-mounted directory. So long as it does not exist, it will sleep for one second and check again in an infinite loop. However, as soon as it does, the script will run the ZAP scanner using special flags to run it on the given URL and generate a report in the desired directory. 
+
+The `Dockerfile` in `zap-scanner` installs all necessary files required for the scanner, as provided on [Docker Hub](https://hub.docker.com/r/owasp/zap2docker-stable). Then, it copies my Bash script into it, and immediately executes the script, which will initially run at the same time as the Python script from the other container. 
+
+## Issues Encountered
+
+During the process of learning Docker and the usage of the ZAP scanner, I first had to go from running the scanner in Docker using ZAP's GUI, to simply calling it and using ZAP's custom Docker CLI commands and receiving security reports in the terminal. This involved figuring out which flags served which purpose and the order required. The next step was to configure a volume to the container so that the report would remain even once the container stopped running, which involved many steps and a great deal of research.
+
+The next difficult part was to link the containers so that the URL could be passed between them. The most efficient way would definitely be to set up an API. However, I decided to take a shortcut by simply linking them with another volume that contained a text file with the link. Once the idea had been generated, implementing it was easier as it was simple file management.
+
+Finally, I had to render the report to the user in the browser. Unfortunately, rendering it on the same app route that the user entered the link did not work, so after some trials, the working result had to keep the original website based on the same HTML file, split the app into another specialized route, which could either have simple non-HTML text to simply indicate no report was available yet, or render the entire report. Another major error was that entering 'www' based URLs made the scanner run indefinitely, possibly due to  the scanner itself or the CLI-based execution.
 
 ## Important Notes
 
