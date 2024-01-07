@@ -40,7 +40,7 @@ The file `flask-app/Dockerfile` copies the directory files into the container, i
 
 The Bash script `zap-scanner/scan-script.sh` waits for the text file containing the URL to be created by the Python script in the other container to appear in the volume-mounted directory. So long as it does not exist, it will sleep for one second and check again in an infinite loop. However, as soon as it does, the script will run the ZAP scanner using a terminal command with special flags to run it on the given URL and to generate a report in the desired directory. 
 
-The file `zap-scanner/Dockerfile` installs all necessary files required for the scanner, as provided on [Docker Hub](https://hub.docker.com/r/owasp/zap2docker-stable). Then, it copies my Bash script into it, and immediately executes the script, which will initially run at the same time as the Python script from the other container. 
+The file `zap-scanner/Dockerfile` installs the scanner's Docker image required to launch its container, as provided on [Docker Hub](https://hub.docker.com/r/owasp/zap2docker-stable). Then, it copies my Bash script into the scanner's container and immediately executes the script, which will initially run at the same time as the Python script from the other container. 
 
 ## Issues Encountered
 
