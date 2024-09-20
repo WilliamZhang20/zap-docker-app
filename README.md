@@ -12,11 +12,13 @@ To use it, one can simply enter the website link, press submit, and the report w
 
 2) Set up Docker Desktop.
 
-3) To start, run `docker-compose up` from the directory of the project. All the volumes, images, and containers will be built automatically.
+3) Pull the zap scanner Docker image from the Docker Hub by entering `docker pull zaproxy/zap-stable`.
 
-4) Open `localhost:8888` in a browser, enter the link (see Important Notes below), and press submit. To view the report, add `/view-report` to the end of the URL, and wait for the scan to complete.
+4) To start, run `docker-compose up` from the directory of the project. All the volumes, images, and containers will be built automatically.
 
-5) To stop the app, run Ctrl+C in the terminal. Then, to remove the containers, run `docker-compose down`.
+5) Open `localhost:8888` in a browser, enter the link (see Important Notes below), and press submit. To view the report, add `/view-report` to the end of the URL, and wait for the scan to complete.
+
+6) To stop the app, run Ctrl+C in the terminal. Then, to remove the containers, run `docker-compose down`.
 
 ## How does it work?
 
