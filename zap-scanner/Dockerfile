@@ -4,4 +4,4 @@ WORKDIR /usr/src/app
 
 COPY . .
 
-ENTRYPOINT [ "./scan-script.sh" ]
+CMD ["python", "./run_scan.py"]

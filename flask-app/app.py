@@ -1,4 +1,5 @@
 from flask import Flask, render_template, request
+import socket # for TCP connections with the ZAP container
 import os
 import shutil
 
@@ -9,12 +10,20 @@ def index():
     if request.method == "POST":
         # Receive link, check for http or https header
         website_link = request.form["link_text"]
-        if website_link[0:4] != "http":
-            website_link = "http://" + website_link 
-        # Send the file, and other container should run
-        with open('/usr/src/web-links/website-link.txt', 'w') as link_file:
-            link_file.write(website_link)
-        return render_template("index.html", message = f"Running scan on {website_link}, visit /view-report")
+        if not website_link.startswith("http"):
+            website_link = "https://" + website_link 
+
+        # Send the link to the zap-scanner via a data buffer using sockets over the docker network
+        try:
+            with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
+                sock.connect(('zap-scanner', 3030))  # Connect to zap-scanner service
+                sock.sendall(website_link.encode('utf-8'))  # Send the link
+                response = sock.recv(1024)  # Receive response
+                scan_status = response.decode('utf-8')
+        except Exception as e:
+            scan_status = f"Error sending link: {e}"
+
+        return render_template("index.html", message = f"Running scan with {scan_status}, visit /view-report")
     return render_template("index.html")
 
 @app.route('/view-report', methods = ["GET"])
